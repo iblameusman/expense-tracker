@@ -7,82 +7,166 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;700;900&display=swap" rel="stylesheet">
-  <style>
-    body { font-family: 'Red Hat Display', sans-serif; }
-    .gradient-bg {
-      background: linear-gradient(120deg, #f7fafd 60%, #e6e9fd 100%);
-      position: absolute; width: 100vw; height: 320px; z-index: 0; top: 0; left: 0;
-      filter: blur(6px); pointer-events: none;
-      animation: gradientmove 14s ease-in-out infinite alternate;
-    }
-    @keyframes gradientmove {
-      0% { background-position: 0% 50%; }
-      100% { background-position: 100% 50%; }
-    }
-    .ripple { position: relative; overflow: hidden; }
-    .ripple:after {
-      content: ""; display: block; position: absolute; border-radius: 50%;
-      width: 100px; height: 100px; left: 50%; top: 50%;
-      pointer-events: none; background: rgba(255,255,255,.2);
-      transform: scale(0) translate(-50%, -50%);
-      opacity: 0; transition: transform .4s, opacity .8s;
-    }
-    .ripple:active:after {
-      transform: scale(2.2) translate(-50%, -50%);
-      opacity: 1; transition: 0s;
-    }
-    .card-hover { transition: transform 0.2s, box-shadow 0.3s; }
-    .card-hover:hover { transform: translateY(-7px) scale(1.02); box-shadow: 0 12px 32px -8px #5ac9ee22; }
-    .floating-icon {
-      animation: float 2.4s ease-in-out infinite alternate;
-    }
-    @keyframes float {
-      from { transform: translateY(0);}
-      to { transform: translateY(-16px);}
-    }
-    .donut {
-      background:
-        radial-gradient(closest-side, #fff 79%, transparent 80% 100%),
-        conic-gradient(#09A6F3 0 67%, #e6e9fd 0 100%);
-    }
-    .donut2 {
-      background:
-        radial-gradient(closest-side, #fff 79%, transparent 80% 100%),
-        conic-gradient(#15B77B 0 33%, #e6e9fd 0 100%);
-    }
-    .fade-section {
-      opacity: 0;
-      transform: translateY(32px);
-      transition: opacity 0.8s cubic-bezier(.4,0,.2,1), transform 0.8s cubic-bezier(.4,0,.2,1);
-    }
-    .fade-section.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  </style>
+<style>
+  body { font-family: 'Red Hat Display', sans-serif; }
+=
+
+
+  @keyframes gradientmove {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+  }
+  .ripple { position: relative; overflow: hidden; }
+  .ripple:after {
+    content: ""; display: block; position: absolute; border-radius: 50%;
+    width: 100px; height: 100px; left: 50%; top: 50%;
+    pointer-events: none; background: rgba(255,255,255,.2);
+    transform: scale(0) translate(-50%, -50%);
+    opacity: 0; transition: transform .4s, opacity .8s;
+  }
+  .ripple:active:after {
+    transform: scale(2.2) translate(-50%, -50%);
+    opacity: 1; transition: 0s;
+  }
+  .card-hover { transition: transform 0.2s, box-shadow 0.3s; }
+  .card-hover:hover { transform: translateY(-7px) scale(1.02); box-shadow: 0 12px 32px -8px #5ac9ee22; }
+  .floating-icon {
+    animation: float 2.4s ease-in-out infinite alternate;
+  }
+  @keyframes float {
+    from { transform: translateY(0);}
+    to { transform: translateY(-16px);}
+  }
+  .donut {
+    background:
+      radial-gradient(closest-side, #fff 79%, transparent 80% 100%),
+      conic-gradient(#09A6F3 0 67%, #e6e9fd 0 100%);
+  }
+  .donut2 {
+    background:
+      radial-gradient(closest-side, #fff 79%, transparent 80% 100%),
+      conic-gradient(#15B77B 0 33%, #e6e9fd 0 100%);
+  }
+  .fade-section {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.8s cubic-bezier(.4,0,.2,1), transform 0.8s cubic-bezier(.4,0,.2,1);
+  }
+  .fade-section.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .nav-anim-link {
+    position: relative;
+    overflow: hidden;
+    transition: color 0.22s;
+  }
+  .nav-anim-link::after {
+    content: '';
+    position: absolute;
+    left: 0; bottom: 0;
+    width: 100%; height: 2.5px;
+    background: #09A6F3;
+    transform: translateX(-101%);
+    transition: transform 0.38s cubic-bezier(.4,0,.2,1);
+  }
+  .nav-anim-link:hover::after,
+  .nav-anim-link:focus::after,
+  .nav-anim-link.active::after {
+    transform: translateX(0);
+  }
+  .nav-anim-link.active,
+  .nav-anim-link:focus,
+  .nav-anim-link:active {
+    color: #09A6F3 !important;
+    background: #e3f7fd;
+  }
+  .slide-fade {
+    transition: opacity 0.35s cubic-bezier(.4,0,.2,1), transform 0.38s cubic-bezier(.4,0,.2,1);
+    opacity: 0; transform: translateY(-18px) scale(.96);
+    pointer-events: none;
+  }
+  .slide-fade.open {
+    opacity: 1; transform: translateY(0) scale(1);
+    pointer-events: auto;
+  }
+</style>
+
 </head>
 <body class="bg-[#f7fafd] min-h-screen font-sans relative">
   <!-- Animated Gradient Background -->
   <div class="gradient-bg"></div>
 
   <!-- Navbar -->
-  <nav class="bg-white shadow-sm sticky top-0 z-50">
+<!-- Navbar -->
+  <nav class="bg-white/70 backdrop-blur shadow-sm sticky top-0 z-50">
     <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center relative">
-      <div class="text-2xl font-bold text-[#09A6F3] tracking-wide flex items-center gap-2">
+      <!-- Logo -->
+      <div class="flex items-center gap-2 text-2xl font-bold text-[#09A6F3] tracking-wide">
         <svg class="w-7 h-7 text-[#09A6F3]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <circle cx="12" cy="12" r="10"/>
           <path d="M8 12h8M12 8v8"/>
         </svg>
         Expense Tracker
       </div>
-      <div class="flex gap-6 items-center">
-        <a href="#dashboard" class="text-[#172642] font-medium px-2 py-1 border-b-2 border-[#09A6F3]">Dashboard</a>
-        <a href="#expenses" class="text-gray-700 hover:text-[#09A6F3] transition">Expenses</a>
-        <a href="#analytics" class="text-gray-700 hover:text-[#09A6F3] transition">Analytics</a>
-        <a href="#goals" class="text-gray-700 hover:text-[#09A6F3] transition">Goals</a>
-        <a href="#faq" class="text-gray-700 hover:text-[#09A6F3] transition">FAQ</a>
+      <!-- Desktop Links -->
+      <div class="hidden md:flex gap-6 items-center">
+        <a href="#dashboard" class="nav-anim-link text-gray-700 hover:text-[#09A6F3] font-medium transition focus:outline-none px-2 py-1 rounded" data-link="dashboard">
+          Dashboard
+        </a>
+        <a href="#expenses" class="nav-anim-link text-gray-700 hover:text-[#09A6F3] font-medium transition focus:outline-none px-2 py-1 rounded" data-link="expenses">
+          Expenses
+        </a>
+        <a href="#analytics" class="nav-anim-link text-gray-700 hover:text-[#09A6F3] font-medium transition focus:outline-none px-2 py-1 rounded" data-link="analytics">
+          Analytics
+        </a>
+        <a href="#goals" class="nav-anim-link text-gray-700 hover:text-[#09A6F3] font-medium transition focus:outline-none px-2 py-1 rounded" data-link="goals">
+          Goals
+        </a>
+        <a href="#faq" class="nav-anim-link text-gray-700 hover:text-[#09A6F3] font-medium transition focus:outline-none px-2 py-1 rounded" data-link="faq">
+          FAQ
+        </a>
+        <!-- Auth Buttons -->
+        <div class="flex gap-2 ml-3">
+          <a href="/login">
+            <button class="bg-[#15B77B] hover:bg-[#09A6F3] focus:bg-[#09A6F3] text-white px-5 py-2 rounded-2xl shadow font-semibold transition-all duration-200 ripple focus:outline-none">
+              Login
+            </button>
+          </a>
+          <a href="/register">
+            <button class="bg-white border-2 border-[#09A6F3] text-[#09A6F3] hover:bg-[#09A6F3] hover:text-white focus:bg-[#09A6F3] focus:text-white px-5 py-2 rounded-2xl shadow font-semibold transition-all duration-200 ripple focus:outline-none">
+              Sign Up
+            </button>
+          </a>
+        </div>
+      </div>
+      <!-- Hamburger menu (Mobile) -->
+      <button id="navbar-toggle" class="md:hidden flex items-center px-3 py-2 border rounded text-[#09A6F3] border-[#09A6F3] hover:bg-[#e3f7fd] transition focus:outline-none" aria-label="Toggle menu">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 8h16M4 16h16"/>
+        </svg>
+      </button>
+    </div>
+    <!-- Mobile Menu -->
+<div id="mobile-menu"
+   class="md:hidden fixed top-4 left-1/2 -translate-x-1/2 w-[95vw] max-w-sm bg-white/95 rounded-2xl z-50 flex flex-col p-6
+  shadow-xl transition-all duration-300 ease-in-out opacity-0 pointer-events-none scale-95 space-y-2">
+  
+      <a href="#dashboard" class="nav-anim-link block text-gray-700 hover:text-[#09A6F3] font-medium py-2 rounded" data-link="dashboard">Dashboard</a>
+      <a href="#expenses" class="nav-anim-link block text-gray-700 hover:text-[#09A6F3] font-medium py-2 rounded" data-link="expenses">Expenses</a>
+      <a href="#analytics" class="nav-anim-link block text-gray-700 hover:text-[#09A6F3] font-medium py-2 rounded" data-link="analytics">Analytics</a>
+      <a href="#goals" class="nav-anim-link block text-gray-700 hover:text-[#09A6F3] font-medium py-2 rounded" data-link="goals">Goals</a>
+      <a href="#faq" class="nav-anim-link block text-gray-700 hover:text-[#09A6F3] font-medium py-2 rounded" data-link="faq">FAQ</a>
+      <div class="flex flex-col gap-2 mt-2">
+        <a href="/login">
+          <button class="w-full bg-[#15B77B] hover:bg-[#09A6F3] focus:bg-[#09A6F3] text-white px-5 py-2 rounded-2xl shadow font-semibold transition-all duration-200 ripple focus:outline-none">
+            Login
+          </button>
+        </a>
         <a href="/register">
-          <button class="ml-3 bg-[#15B77B] hover:bg-[#09A6F3] text-white px-5 py-2 rounded-2xl shadow ripple font-semibold transition">Login</button>
+          <button class="w-full bg-white border-2 border-[#09A6F3] text-[#09A6F3] hover:bg-[#09A6F3] hover:text-white focus:bg-[#09A6F3] focus:text-white px-5 py-2 rounded-2xl shadow font-semibold transition-all duration-200 ripple focus:outline-none">
+            Sign Up
+          </button>
         </a>
       </div>
     </div>
@@ -154,6 +238,22 @@
   .animate-pulse-slow { animation: pulseSlow 4s infinite; }
   .floating-icon { animation: floatIcon 2.8s ease-in-out infinite alternate; }
   @keyframes floatIcon { from { transform: translateY(0);} to { transform: translateY(-14px);} }
+  .nav-anim-link {
+    position: relative;
+    overflow: hidden;
+  }
+  .nav-anim-link::after {
+    content: '';
+    position: absolute;
+    left: 0; bottom: 0;
+    width: 100%; height: 2px;
+    background: #09A6F3;
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(.4,0,.2,1);
+  }
+  .nav-anim-link:hover::after, .nav-anim-link:focus::after, .nav-anim-link.active::after {
+    transform: translateX(0);
+  }
 </style>
 
 
@@ -387,18 +487,87 @@
   </footer>
 
   <!-- Animations on scroll -->
-  <script>
-    // Intersection Observer for fade-in sections
-    document.addEventListener('DOMContentLoaded', () => {
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-          }
-        });
-      }, { threshold: 0.22 });
-      document.querySelectorAll('.fade-section').forEach(el => observer.observe(el));
+<script>
+// Intersection Observer for fade-in sections
+document.addEventListener('DOMContentLoaded', () => {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
     });
+  }, { threshold: 0.22 });
+  document.querySelectorAll('.fade-section').forEach(el => observer.observe(el));
+
+  // Navbar logic:
+  const navToggle = document.getElementById('navbar-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  // Set default classes for hidden (closed) state
+  mobileMenu.classList.add('opacity-0', 'pointer-events-none', 'scale-95');
+  mobileMenu.classList.remove('opacity-100', 'pointer-events-auto', 'scale-100');
+
+  function setActive(link) {
+    document.querySelectorAll('.nav-anim-link').forEach(el => el.classList.remove('active'));
+    if (link) link.classList.add('active');
+  }
+
+  function handleNavClick(e) {
+    if (e.target.classList.contains('nav-anim-link')) {
+      const href = e.target.getAttribute('href');
+      if (href && href.startsWith('#')) {
+        e.preventDefault();
+        const targetSection = document.querySelector(href);
+        if (targetSection) {
+          targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+      setActive(e.target);
+      // Close mobile menu when an item is clicked (on mobile)
+      if (window.innerWidth < 768) {
+        mobileMenu.classList.add('opacity-0', 'pointer-events-none', 'scale-95');
+        mobileMenu.classList.remove('opacity-100', 'pointer-events-auto', 'scale-100');
+      }
+    }
+  }
+
+  // Animate mobile menu open/close with new class
+  navToggle.addEventListener('click', () => {
+    if (mobileMenu.classList.contains('opacity-100')) {
+      // Hide
+      mobileMenu.classList.add('opacity-0', 'pointer-events-none', 'scale-95');
+      mobileMenu.classList.remove('opacity-100', 'pointer-events-auto', 'scale-100');
+    } else {
+      // Show
+      mobileMenu.classList.remove('opacity-0', 'pointer-events-none', 'scale-95');
+      mobileMenu.classList.add('opacity-100', 'pointer-events-auto', 'scale-100');
+    }
+  });
+
+  // Attach to all nav links
+  document.querySelectorAll('.nav-anim-link').forEach(link => {
+    link.addEventListener('click', handleNavClick);
+  });
+
+  // Highlight active nav item on scroll
+  function onScrollActiveNav() {
+    const sections = ['dashboard', 'expenses', 'analytics', 'goals', 'faq'];
+    let found = false;
+    for (let id of sections) {
+      const sec = document.getElementById(id);
+      if (sec && window.scrollY + 72 >= sec.offsetTop) {
+        const navs = document.querySelectorAll('.nav-anim-link[data-link="'+id+'"]');
+        navs.forEach(setActive);
+        found = true;
+      }
+    }
+    if (!found) setActive(null);
+  }
+  window.addEventListener('scroll', onScrollActiveNav, { passive: true });
+  // Highlight Dashboard by default on load
+  setActive(document.querySelector('.nav-anim-link[data-link="dashboard"]'));
+});
+
   </script>
 </body>
 </html>
