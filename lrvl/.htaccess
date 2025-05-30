@@ -1,0 +1,47 @@
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews -Indexes
+    </IfModule>
+
+    RewriteEngine On
+
+    # Handle Authorization Header
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    # Redirect Trailing Slashes If Not A Folder
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)/$ /$1 [L,R=301]
+
+    # Handle Front Controller
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+
+    # Protect Sensitive Files
+    <FilesMatch "(\.env|\.htaccess|composer\.(json|lock)|server\.php|artisan|package-lock\.json|yarn\.lock)">
+        Require all denied
+    </FilesMatch>
+
+    # Deny Access to Storage and Logs
+    RewriteRule ^storage/ - [F,L]
+    RewriteRule ^logs/ - [F,L]
+
+    # Deny Access to Hidden Files (e.g., .git, .env)
+    RewriteCond %{REQUEST_FILENAME} -d [OR]
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule /\. - [F]
+
+    # Deny Access to Node Modules and Vendor
+    RewriteRule ^(node_modules|vendor)/ - [F,L]
+
+    # Allow Access to Sitemap
+    <Files sitemap.xml>
+        Require all granted
+    </Files>
+
+    # Deny Access to Public Backup Files
+    <FilesMatch "\.(bak|config|sql|fla|psd|ini|log|sh|swp|dist)$">
+        Require all denied
+    </FilesMatch>
+</IfModule>
